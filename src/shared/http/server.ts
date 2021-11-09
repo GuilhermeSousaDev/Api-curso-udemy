@@ -18,11 +18,12 @@ class App {
 
     private routes() {
         this.app.use('/', router)
+        this.app.use(express.json())
+        this.app.use(express.urlencoded)
     }
 
     private middlewares() {
         this.app.use(cors())
-        this.app.use(express.json())
 
         this.app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
             if(error instanceof  AppError) {

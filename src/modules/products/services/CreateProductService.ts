@@ -1,6 +1,6 @@
-import { getCustomRepository, getRepository } from 'typeorm'
-import { ProductRepository } from '../typeorm/repositories/Products.repository'
-import { Product } from '../typeorm/entities/Product'
+import { getCustomRepository } from 'typeorm'
+import ProductRepository from '../typeorm/repositories/Products.repository'
+import Product from '../typeorm/entities/Product'
 import AppError from '@shared/errors/AppError'
 
 interface IRequest {
@@ -26,4 +26,4 @@ class CreateProductService {
     }
 }
 
-export default new CreateProductService()
+export default CreateProductService;

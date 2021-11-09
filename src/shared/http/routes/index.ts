@@ -1,10 +1,11 @@
-import { Request, Response } from 'express'
 import { Router } from 'express'
+import ProductsController from '@modules/products/controllers/ProductsController'
 
 const router = Router()
 
-router.get('/', (req: Request, res: Response) => {
-    return res.json({ message: 'Hello Dev!' })
-})
+const productController = new ProductsController()
+
+router.get('/', productController.index)
+router.post('/create', productController.create)
 
 export default router
