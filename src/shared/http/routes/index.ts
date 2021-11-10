@@ -1,11 +1,8 @@
 import { Router } from 'express'
-import ProductsController from '@modules/products/controllers/ProductsController'
+import productsRouter from '@modules/products/routes/products.routes'
 
 const router = Router()
 
-const productController = new ProductsController()
-
-router.get('/', productController.index)
-router.post('/create', productController.create)
+router.use('/products', productsRouter)
 
 export default router
