@@ -5,7 +5,6 @@ import User from '../typeorm/entitites/User'
 import UserRepository from '../typeorm/repositories/UserRepository'
 
 interface IRequest {
-    name: string;
     email: string;
     password: string;
 }
@@ -17,13 +16,13 @@ export default class CreateSessionsService {
         const user = await userRepository.findByEmail(email)
 
         if(!user) {
-            throw new AppError('Incorrect email/password combination', 401)
+            throw new AppError('This user not exist', 401)
         }
 
-        const passwordConfirmed = await compare(password, user.email)
+        const passwordConfirmed = await compare(password, user.password)
 
         if(!passwordConfirmed) {
-            throw new AppError('Incorrect email/password combination', 401)
+            throw new AppError('Incorrect password combination', 401)
         }
 
         return user;
