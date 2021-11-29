@@ -13,15 +13,12 @@ interface TokenPayload {
 export default function isAuthenticated(
     req: Request,
     res: Response,
-    next: NextFunction
-    ): void {
-    const authHeader = req.headers.authorization || req.params.token
+    next: NextFunction): void {
+    const token = req.headers.authorization
 
-    if(!authHeader) {
+    if(!token) {
         throw new AppError('JWT token is missing')
     }
-
-    const [, token] = authHeader.split(' ')
 
     try {
         const decodedToken = verify(token, auth.jwt.secret);

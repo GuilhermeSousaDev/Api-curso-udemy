@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+/*import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
 export class createProducts1635791194605 implements MigrationInterface {
 
@@ -45,5 +45,5 @@ export class createProducts1635791194605 implements MigrationInterface {
         await queryRunner.dropTable('products')
     }
 
-}
+}*/
 

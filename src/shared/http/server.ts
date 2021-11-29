@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import 'express-async-errors';
 import express, { NextFunction, Request, Response } from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
 import { errors } from 'celebrate'
+import cors from 'cors';
 import '@shared/typeorm';
 
 import router from './routes/index';
+import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 
 class App {
@@ -20,10 +20,11 @@ class App {
     }
 
     private routes() {
-        this.app.use(bodyParser.json())
-        this.app.use(bodyParser.urlencoded({ extended: false }))
+        this.app.use(express.json())
+        this.app.use(express.urlencoded())
         this.app.use(router)
         this.app.use(errors())
+        this.app.use('/files', express.static(uploadConfig.directory))
     }
 
     private middlewares() {

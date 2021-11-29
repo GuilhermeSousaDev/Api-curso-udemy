@@ -1,10 +1,10 @@
-/*import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createUsers1636741452930 implements MigrationInterface {
+export class createUsersTokens1638185106824 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: 'users',
+            name: 'user_tokens',
             columns: [
                 {
                     name: 'id',
@@ -13,22 +13,12 @@ export class createUsers1636741452930 implements MigrationInterface {
                     generationStrategy: 'increment'
                 },
                 {
-                    name: 'name',
+                    name: 'token',
                     type: 'varchar'
                 },
                 {
-                    name: 'email',
-                    type: 'varchar',
-                    isUnique: true
-                },
-                {
-                    name: 'password',
-                    type: 'varchar'
-                },
-                {
-                    name: 'avatar',
-                    type: 'varchar',
-                    isNullable: true
+                    name: 'user_id',
+                    type: 'int',
                 },
                 {
                     name: 'createdAt',
@@ -40,12 +30,22 @@ export class createUsers1636741452930 implements MigrationInterface {
                     type: 'timestamp',
                     default: 'now()'
                 }
+            ],
+            foreignKeys: [
+                {
+                    name: 'TokenUser',
+                    referencedTableName: 'users',
+                    referencedColumnNames: ['id'],
+                    columnNames: ['user_id'],
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                }
             ]
         }))
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('users')
+        await queryRunner.dropTable('user_tokens')
     }
 
-}*/
+}
