@@ -19,10 +19,11 @@ export default class CreateUserService {
         if(emailExists) {
             throw new AppError('This email address already used')
         }
-        const hashedPassword = await hash(password, 8)
 
         const users = userRepository.create({ name, email, password })
 
+        const hashedPassword = await hash(password, 8)
+        
         users.password = hashedPassword
 
         await userRepository.save(users)
