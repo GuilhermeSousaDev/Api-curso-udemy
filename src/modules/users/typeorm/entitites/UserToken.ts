@@ -6,7 +6,7 @@ import {
     UpdateDateColumn
 } from 'typeorm'
 
-@Entity('users')
+@Entity('user_tokens')
 export default class UserToken {
     @PrimaryGeneratedColumn()
     id: number;
@@ -16,7 +16,7 @@ export default class UserToken {
 
     @Column()
     user_id: number;
-    
+
     @CreateDateColumn()
     createdAt: Date;
 

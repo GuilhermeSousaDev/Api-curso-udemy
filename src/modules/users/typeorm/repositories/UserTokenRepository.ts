@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import { EntityRepository, Repository } from 'typeorm'
 import UserToken from '../entitites/UserToken';
 
@@ -10,11 +9,9 @@ export default class UserTokenRepository extends Repository<UserToken> {
         return userToken;
     }
 
-    public async generate(user_id: number): Promise<UserToken> {
+    public async generate(user_id: number, token: string): Promise<UserToken> {
 
-        const token = crypto.randomBytes(10).toString('hex')
-
-        const userToken = this.create({ token ,user_id })
+        const userToken = this.create({ user_id, token })
 
         await this.save(userToken)
 
