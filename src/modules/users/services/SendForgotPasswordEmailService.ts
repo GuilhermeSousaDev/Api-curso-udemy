@@ -1,16 +1,17 @@
 import crypto from 'crypto';
-import AppError from '@shared/errors/AppError'
-import { getCustomRepository } from 'typeorm'
-import UserToken from '../typeorm/entitites/UserToken'
-import UserRepository from '../typeorm/repositories/UserRepository'
-import UserTokenRepository from '../typeorm/repositories/UserTokenRepository'
+import path from 'path';
+import AppError from '@shared/errors/AppError';
+import { getCustomRepository } from 'typeorm';
+import UserRepository from '../typeorm/repositories/UserRepository';
+import UserTokenRepository from '../typeorm/repositories/UserTokenRepository';
+import EtherealMail from '@config/mail/EtherealMail';
 
 interface IRequest {
     email: string;
 }
 
 export default class SendForgotPasswordEmailService {
-    public async execute({ email }: IRequest): Promise<UserToken> {
+    public async execute({ email }: IRequest): Promise<void> {
         const userRepository = getCustomRepository(UserRepository)
         const userTokenRepository = getCustomRepository(UserTokenRepository)
 
@@ -26,7 +27,27 @@ export default class SendForgotPasswordEmailService {
 
         const userToken = await userTokenRepository.generate(user_id, token);
 
-        return userToken;
+        const forgotPasswordTemplate = path.resolve(
+            __dirname,
+            '..',
+            'views',
+            'forgot_password.hbs'
+        );
+
+        await EtherealMail.sendMail({
+            to: {
+                name: user.name,
+                email: user.email
+            },
+            subject: '[API Vendas] Recuperação de Senha',
+            templateData: {
+                file: forgotPasswordTemplate,
+                variables: {
+                    name: user.name,
+                    link: `http://localhost:3000/reset_password?token=${userToken.token}`
+                }
+            }
+        })
     }
 }
 
