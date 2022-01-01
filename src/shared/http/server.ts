@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 import 'express-async-errors';
 import express, { NextFunction, Request, Response } from 'express';
-import { errors } from 'celebrate'
+import { errors } from 'celebrate';
+import { pagination } from 'typeorm-pagination';
 import cors from 'cors';
 import '@shared/typeorm';
 
@@ -22,6 +23,7 @@ class App {
     private routes() {
         this.app.use(express.json())
         this.app.use(express.urlencoded())
+        this.app.use(pagination)
         this.app.use(router)
         this.app.use(errors())
         this.app.use('/files', express.static(uploadConfig.directory))

@@ -1,9 +1,11 @@
+import Order from '@modules/orders/typeorm/entities/Orders';
 import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    OneToMany
 } from 'typeorm'
 
 @Entity('users')
@@ -22,6 +24,9 @@ export default class User {
 
     @Column('varchar')
     avatar: string;
+
+    @OneToMany(type => Order, order => order.user)
+    order: Order[]
 
     @CreateDateColumn()
     createdAt: Date;

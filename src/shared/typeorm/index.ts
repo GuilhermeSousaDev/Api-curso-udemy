@@ -4,6 +4,7 @@ import Product from '@modules/products/typeorm/entities/Product';
 import UserToken from '@modules/users/typeorm/entitites/UserToken';
 import Customer from '@modules/customers/typeorm/entities/Customer';
 import Orders from '@modules/orders/typeorm/entities/Orders';
+import OrdersProducts from '@modules/orders/typeorm/entities/OrdersProducts';
 
 createConnection({
     type: "mysql",
@@ -12,7 +13,7 @@ createConnection({
     username: "root",
     password: "",
     database: "apivendas",
-    entities: [User, Product, UserToken, Customer, Orders],
+    entities: [User, Product, UserToken, Customer, Orders, OrdersProducts],
     migrations: ["src/shared/typeorm/migrations/*.ts"],
     cli: {
         migrationsDir: "src/shared/typeorm/migrations"
