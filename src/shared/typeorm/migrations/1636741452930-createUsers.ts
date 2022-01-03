@@ -1,4 +1,4 @@
-/*import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
 export class createUsers1636741452930 implements MigrationInterface {
 
@@ -48,4 +48,4 @@ export class createUsers1636741452930 implements MigrationInterface {
         await queryRunner.dropTable('users')
     }
 
-}*/
+}

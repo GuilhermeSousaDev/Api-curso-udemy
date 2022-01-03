@@ -1,4 +1,3 @@
-import Order from '@modules/orders/typeorm/entities/Orders';
 import {
     Entity,
     Column,
@@ -6,7 +5,8 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToMany
-} from 'typeorm'
+} from 'typeorm';
+import { Expose, Exclude } from 'class-transformer';
 
 @Entity('users')
 export default class User {
@@ -20,17 +20,24 @@ export default class User {
     email: string;
 
     @Column('varchar')
+    @Exclude()
     password: string;
 
     @Column('varchar')
     avatar: string;
-
-    @OneToMany(type => Order, order => order.user)
-    order: Order[]
 
     @CreateDateColumn()
     createdAt: Date;
 
     @UpdateDateColumn()
     updatedAt: Date;
+
+    @Expose({ name: 'avatar_url' })
+    getAvatarUrl(): string | null {
+        if(!this.avatar) {
+            return null;
+        }
+
+        return `${process.env.APP_API_URL}/files/${this.avatar}`;
+    }
 }
