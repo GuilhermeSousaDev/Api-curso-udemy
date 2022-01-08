@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 import { compare, hash } from 'bcryptjs';
 import UserRepository from '../typeorm/repositories/UserRepository';
 import User from '../typeorm/entitites/User';
+import RedisCache from '@shared/cache/RedisCache';
 
 interface IRequest {
     user_id: number;
@@ -44,6 +45,11 @@ export default class UpdateProfileService {
 
         user.name = name
         user.email = email
+
+
+        const redisCache = new RedisCache();
+
+        redisCache.invalidate('api-vendas-USERS_LIST');
 
         await userRepository.save(user);
 

@@ -10,14 +10,15 @@ import '@shared/typeorm';
 import router from './routes/index';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
+import rateLimiter from './middlewares/rateLimiter';
 
 class App {
     public app: express.Application
 
     constructor() {
         this.app = express()
-        this.routes()
         this.middlewares()
+        this.routes()
         this.listen()
     }
 
@@ -32,6 +33,7 @@ class App {
 
     private middlewares() {
         this.app.use(cors())
+        this.app.use(rateLimiter)
 
         this.app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
             if(error instanceof  AppError) {

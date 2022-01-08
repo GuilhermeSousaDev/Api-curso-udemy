@@ -12,7 +12,7 @@ createConnection({
     port: 3306,
     username: "root",
     password: "",
-    database: "api_vendas_teste",
+    database: "apivendas",
     entities: [User, Product, UserToken, Customer, Orders, OrdersProducts],
     migrations: ["src/shared/typeorm/migrations/*.ts"],
     cli: {

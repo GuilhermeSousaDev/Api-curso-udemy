@@ -3,6 +3,7 @@ import AppError from '@shared/errors/AppError'
 import User from '../typeorm/entitites/User'
 import UserRepository from '../typeorm/repositories/UserRepository'
 import { hash } from 'bcryptjs'
+import RedisCache from '@shared/cache/RedisCache'
 
 interface IRequest {
     name: string;
@@ -20,11 +21,16 @@ export default class CreateUserService {
             throw new AppError('This email address already used')
         }
 
+
         const users = userRepository.create({ name, email, password })
 
         const hashedPassword = await hash(password, 8)
-        
+
         users.password = hashedPassword
+
+        const redisCache = new RedisCache();
+
+        redisCache.invalidate('api-vendas-USERS_LIST');
 
         await userRepository.save(users)
 
