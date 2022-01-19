@@ -37,7 +37,7 @@ export default class SESMail {
 
         const mailTemplate = new HandlebarsMailTemplate();
 
-        const message = await transporter.sendMail({
+        await transporter.sendMail({
             from: {
                 name: from?.name || name,
                 address: from?.email || email,
