@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm'
 import AppError from '@shared/errors/AppError'
-import User from '../typeorm/entitites/User'
-import UserRepository from '../typeorm/repositories/UserRepository'
+import User from '../infra/typeorm/entitites/User'
+import UserRepository from '../infra/typeorm/repositories/UserRepository'
 import { hash } from 'bcryptjs'
 import RedisCache from '@shared/cache/RedisCache'
 

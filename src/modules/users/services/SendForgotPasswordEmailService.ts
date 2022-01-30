@@ -2,8 +2,8 @@ import crypto from 'crypto';
 import path from 'path';
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
-import UserRepository from '../typeorm/repositories/UserRepository';
-import UserTokenRepository from '../typeorm/repositories/UserTokenRepository';
+import UserRepository from '../infra/typeorm/repositories/UserRepository';
+import UserTokenRepository from '../infra/typeorm/repositories/UserTokenRepository';
 import EtherealMail from '@config/mail/EtherealMail';
 import SESMail from '@config/mail/SESMail';
 import mailConfig from '@config/mail/mail'
@@ -51,7 +51,7 @@ export default class SendForgotPasswordEmailService {
                     }
                 }
             });
-            return;                                                                             
+            return;
         }
 
         await EtherealMail.sendMail({
