@@ -7,9 +7,10 @@ import {
     OneToMany
 } from 'typeorm';
 import { Expose, Exclude } from 'class-transformer';
+import { IUsers } from '../../../domain/models/IUsers';
 
 @Entity('users')
-export default class User {
+export default class User implements IUsers {
     @PrimaryGeneratedColumn()
     id: number;
 

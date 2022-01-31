@@ -7,9 +7,10 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn}
 from 'typeorm'
+import { IProducts } from '@modules/products/domain/models/IProducts';
 
 @Entity('products')
-export default class Product {
+export default class Product implements IProducts {
     @PrimaryGeneratedColumn()
     id: number;
 

@@ -7,9 +7,10 @@ import {
     OneToMany
 } from 'typeorm'
 import Order from '../../../../orders/infra/typeorm/entities/Orders';
+import { ICustomer } from '../../../domain/models/ICustomer';
 
 @Entity('customers')
-export default class Customer {
+export default class Customer implements ICustomer {
     @PrimaryGeneratedColumn()
     id: number;
 
