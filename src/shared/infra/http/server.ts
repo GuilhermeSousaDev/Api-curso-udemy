@@ -6,6 +6,7 @@ import { errors } from 'celebrate';
 import { pagination } from 'typeorm-pagination';
 import cors from 'cors';
 import '@shared/infra/typeorm';
+import '@shared/container';
 
 import router from './routes/index';
 import uploadConfig from '@config/upload';

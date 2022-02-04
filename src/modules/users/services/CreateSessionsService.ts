@@ -1,10 +1,10 @@
-import AppError from '@shared/errors/AppError'
-import { getCustomRepository } from 'typeorm'
-import { compare } from 'bcryptjs'
-import { sign } from 'jsonwebtoken'
-import auth from '@config/auth'
-import User from '../infra/typeorm/entitites/User'
-import UserRepository from '../infra/typeorm/repositories/UserRepository'
+import AppError from '@shared/errors/AppError';
+import auth from '@config/auth';
+import User from '../infra/typeorm/entitites/User';
+import { sign } from 'jsonwebtoken';
+import { compare } from 'bcryptjs';
+import { IUserRepository } from '../domain/repositories/IUsersRepository';
+import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
     email: string;
@@ -16,11 +16,15 @@ interface IResponse {
     token: string
 }
 
+@injectable()
 export default class CreateSessionsService {
-    public async execute({ email, password }: IRequest): Promise<IResponse> {
-        const userRepository = getCustomRepository(UserRepository)
+    constructor(
+        @inject('userRepository')
+        private userRepository: IUserRepository
+    ) {}
 
-        const user = await userRepository.findByEmail(email)
+    public async execute({ email, password }: IRequest): Promise<IResponse> {
+        const user = await this.userRepository.findByEmail(email);
 
         if(!user) {
             throw new AppError('This user not exist', 401)

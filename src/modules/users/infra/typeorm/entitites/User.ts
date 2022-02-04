@@ -32,13 +32,4 @@ export default class User implements IUsers {
 
     @UpdateDateColumn({ default: Date.now() })
     updatedAt: Date;
-
-    @Expose({ name: 'avatar_url' })
-    getAvatarUrl(): string | null {
-        if(!this.avatar) {
-            return null;
-        }
-
-        return `${process.env.APP_API_URL}/files/${this.avatar}`;
-    }
 }

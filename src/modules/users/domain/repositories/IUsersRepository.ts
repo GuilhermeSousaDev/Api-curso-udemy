@@ -1,9 +1,11 @@
 import { ICreateUsers } from "../models/ICreateUsers";
-import { IUserToken } from "../models/IUserToken";
+import { IUsers } from "../models/IUsers";
 
-export interface IUserTokenRepository {
-    findByToken(token: string): Promise<IUserToken | undefined>;
-    generate(user_id: number, token: string): Promise<IUserToken>;
-    //create(data: ICreateUsers): Promise<IUsers>;
-    //save(customer: IUsers): Promise<ICreateUsers>;
+export interface IUserRepository {
+    find(): Promise<IUsers[]>;
+    findByEmail(email: string): Promise<IUsers | undefined>;
+    findByName(name: string): Promise<IUsers | undefined>;
+    findById(id: number): Promise<IUsers | undefined>
+    create(data: ICreateUsers): Promise<IUsers>;
+    save(customer: IUsers): Promise<IUsers>;
 }

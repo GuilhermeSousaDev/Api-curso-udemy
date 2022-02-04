@@ -1,23 +1,28 @@
 import crypto from 'crypto';
 import path from 'path';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-import UserRepository from '../infra/typeorm/repositories/UserRepository';
-import UserTokenRepository from '../infra/typeorm/repositories/UserTokenRepository';
 import EtherealMail from '@config/mail/EtherealMail';
-import SESMail from '@config/mail/SESMail';
 import mailConfig from '@config/mail/mail'
+import { inject, injectable } from 'tsyringe';
+import { IUserTokenRepository } from '../domain/repositories/IUserTokenRepository';
+import { IUserRepository } from '../domain/repositories/IUsersRepository';
 
 interface IRequest {
     email: string;
 }
 
+@injectable()
 export default class SendForgotPasswordEmailService {
-    public async execute({ email }: IRequest): Promise<void> {
-        const userRepository = getCustomRepository(UserRepository)
-        const userTokenRepository = getCustomRepository(UserTokenRepository)
+    constructor(
+        @inject('userTokenRepository')
+        private userTokenRepository: IUserTokenRepository,
 
-        const user = await userRepository.findByEmail(email);
+        @inject('userRepository')
+        private userRepository: IUserRepository
+    ) {}
+
+    public async execute({ email }: IRequest): Promise<void> {
+        const user = await this.userRepository.findByEmail(email);
 
         if(!user) {
             throw new AppError('User does not exists');
@@ -27,7 +32,7 @@ export default class SendForgotPasswordEmailService {
 
         const token = crypto.randomBytes(10).toString('hex');
 
-        const userToken = await userTokenRepository.generate(user_id, token);
+        const userToken = await this.userTokenRepository.generate(user_id, token);
 
         const forgotPasswordTemplate = path.resolve(
             __dirname,
