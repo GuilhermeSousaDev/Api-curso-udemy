@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { container } from 'tsyringe';
 import CreateProductService from '../../../services/CreateProductService';
 import DeleteProductService from '../../../services/DeleteProductService';
 import ListProductService from '../../../services/ListProductService'
@@ -7,7 +8,7 @@ import UpdateProductService from '../../../services/UpdateProductService';
 
 export default class ProductsController {
     public async index(req: Request, res: Response): Promise<Response> {
-        const listProducts = new ListProductService()
+        const listProducts = container.resolve(ListProductService);
 
         const products = await listProducts.execute()
 
@@ -27,7 +28,7 @@ export default class ProductsController {
     public async create(req: Request, res: Response): Promise<Response> {
         const { name, price, quantity } = req.body
 
-        const createProduct = new CreateProductService()
+        const createProduct = container.resolve(CreateProductService);
 
         const product = await createProduct.execute({ name, price, quantity })
 
@@ -38,7 +39,7 @@ export default class ProductsController {
         const { name, price, quantity } = req.body
         const { id } = req.params
 
-        const updateProduct = new UpdateProductService()
+        const updateProduct = container.resolve(UpdateProductService);
 
         const product = await updateProduct.execute({ id, name, price, quantity })
 
@@ -48,7 +49,7 @@ export default class ProductsController {
     public async delete(req: Request, res: Response): Promise<Response> {
         const { id } = req.params
 
-        const deleteProduct = new DeleteProductService()
+        const deleteProduct = container.resolve(DeleteProductService);
 
         await deleteProduct.execute({ id })
 
