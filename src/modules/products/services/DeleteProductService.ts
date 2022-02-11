@@ -1,8 +1,8 @@
 import { getCustomRepository } from 'typeorm'
 import ProductRepository from '../infra/typeorm/repositories/Products.repository'
 import AppError from '@shared/errors/AppError'
-import RedisCache from '@shared/cache/RedisCache';
 import { inject, injectable } from 'tsyringe';
+import { IRedisCache } from '@shared/container/providers/CacheProvider/models/IRedisCache';
 
 interface IRequest {
     id: string;
@@ -12,7 +12,7 @@ interface IRequest {
 export default class DeleteProductService {
     constructor(
         @inject('redisCache')
-        private redisCache: RedisCache
+        private redisCache: IRedisCache,
     ) {}
 
     public async execute({ id }: IRequest): Promise<void> {

@@ -9,8 +9,6 @@ import { IUserRepository } from '@modules/users/domain/repositories/IUsersReposi
 import { UserTokenRepository }  from '@modules/users/infra/typeorm/repositories/UserTokenRepository';
 import { IUserTokenRepository } from '@modules/users/domain/repositories/IUserTokenRepository';
 
-import RedisCache from '@shared/cache/RedisCache';
-
 container.registerSingleton<ICustomersRepository>(
     'CustomerRepository',
     CustomerRepository
@@ -24,9 +22,4 @@ container.registerSingleton<IUserRepository>(
 container.registerSingleton<IUserTokenRepository>(
     'userTokenRepository',
     UserTokenRepository,
-);
-
-container.registerSingleton<RedisCache>(
-    'redisCache',
-    RedisCache,
 );

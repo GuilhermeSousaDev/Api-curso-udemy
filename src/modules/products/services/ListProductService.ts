@@ -1,14 +1,14 @@
 import { getCustomRepository } from 'typeorm';
 import Product from '../infra/typeorm/entities/Product';
 import ProductRepository from '../infra/typeorm/repositories/Products.repository';
-import RedisCache from '@shared/cache/RedisCache';
 import { inject, injectable } from 'tsyringe';
+import { IRedisCache } from '@shared/container/providers/CacheProvider/models/IRedisCache';
 
 @injectable()
 export default class ListProductService {
     constructor(
         @inject('redisCache')
-        private redisCache: RedisCache
+        private redisCache: IRedisCache,
     ) {}
 
     public async execute(): Promise<Product[]> {

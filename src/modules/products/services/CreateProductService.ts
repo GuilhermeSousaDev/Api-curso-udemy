@@ -2,8 +2,8 @@ import { getCustomRepository } from 'typeorm';
 import ProductRepository from '../infra/typeorm/repositories/Products.repository';
 import Product from '../infra/typeorm/entities/Product';
 import AppError from '@shared/errors/AppError';
-import RedisCache from '@shared/cache/RedisCache';
 import { inject, injectable } from 'tsyringe';
+import { IRedisCache } from '@shared/container/providers/CacheProvider/models/IRedisCache';
 
 interface IRequest {
     name: string;
@@ -16,12 +16,12 @@ interface IRequest {
 class CreateProductService {
     constructor(
         @inject('redisCache')
-        private redisCache: RedisCache
+        private redisCache: IRedisCache,
     ) {}
 
     public async execute({ name, price, quantity }: IRequest): Promise<Product> {
         const productsRepository = getCustomRepository(ProductRepository);
-        
+
         const productExists = await productsRepository.findByName(name);
 
         if(productExists) {

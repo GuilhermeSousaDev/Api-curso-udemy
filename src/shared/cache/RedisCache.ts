@@ -1,7 +1,8 @@
 import Redis, { Redis as RedisClient } from 'ioredis';
 import cacheConfig from '@config/cache';
+import { IRedisCache } from '@shared/container/providers/CacheProvider/models/IRedisCache';
 
-class RedisCache {
+class RedisCache implements IRedisCache {
     private client: RedisClient;
     private connected = false;
 
