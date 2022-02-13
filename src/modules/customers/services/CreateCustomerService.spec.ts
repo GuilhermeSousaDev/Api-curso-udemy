@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import AppError from '@shared/errors/AppError';
 import CreateCustomerService from './CreateCustomerService';
 import { FakeCustomersRepository } from '@modules/customers/domain/repositories/fakes/FakeCustomersRepository';
 
@@ -13,10 +14,24 @@ describe('CreateCustomer', () => {
             email: 'gui@gmail.com',
         });
 
-        expect(customer).toHaveProperty('id');
+        expect(customer).toBe('id');
     });
 
-    it('should not be able to create two customers with the same email', () => {
-        expect(1).toBe(1)
-    });
+    it('should not be able to create two customers with the same email', async () => {
+        const fakeCustomersRepository = new FakeCustomersRepository();
+
+        const createCustomer = new CreateCustomerService(fakeCustomersRepository);
+
+        await createCustomer.execute({
+            name: 'Guilherme Augusto',
+            email: 'gui@gmail.com',
+        });
+
+        expect(
+            createCustomer.execute({
+                name: 'Guilherme Augusto',
+                email: 'gui@gmail.com',
+            })
+        ).rejects.toBeInstanceOf(AppError)
+    })
 });

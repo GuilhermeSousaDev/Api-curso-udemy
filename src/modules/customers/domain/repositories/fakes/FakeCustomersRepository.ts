@@ -9,7 +9,7 @@ export class FakeCustomersRepository implements ICustomersRepository {
         public async create({ name, email }: ICreateCustomer): Promise<ICustomer> {
             const customer = new Customer();
 
-            customer.id = 1;
+            customer.id = Math.floor(Math.random() * 10); 
             customer.name = name;
             customer.email = email;
 
