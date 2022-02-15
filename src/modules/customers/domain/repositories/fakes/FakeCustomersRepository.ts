@@ -9,7 +9,7 @@ export class FakeCustomersRepository implements ICustomersRepository {
         public async create({ name, email }: ICreateCustomer): Promise<ICustomer> {
             const customer = new Customer();
 
-            customer.id = Math.floor(Math.random() * 10); 
+            customer.id = Math.floor(Math.random() * 10);
             customer.name = name;
             customer.email = email;
 
@@ -19,7 +19,11 @@ export class FakeCustomersRepository implements ICustomersRepository {
         }
 
         public async save(customer: ICustomer): Promise<ICustomer> {
-            Object.assign(this.customers, customer);
+            const findIndex = this.customers.findIndex(findCustomer => {
+                findCustomer.id === customer.id
+            });
+
+            this.customers[findIndex] = customer;
 
             return customer;
         }

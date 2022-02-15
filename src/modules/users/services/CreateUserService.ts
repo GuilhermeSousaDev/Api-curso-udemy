@@ -1,9 +1,9 @@
 import AppError from '@shared/errors/AppError'
 import RedisCache from '@shared/cache/RedisCache'
-import { hash } from 'bcryptjs'
 import { IUserRepository } from '../domain/repositories/IUsersRepository'
 import { inject, injectable } from 'tsyringe'
 import { IUsers } from '../domain/models/IUsers'
+import { IHashProvider } from '../providers/HashProvider/models/IHashProvider'
 
 interface IRequest {
     name: string;
@@ -15,7 +15,9 @@ interface IRequest {
 export default class CreateUserService {
     constructor(
         @inject('userRepository')
-        private userRepository: IUserRepository
+        private userRepository: IUserRepository,
+        @inject('bcryptHashProvider')
+        private bcryptHashProvider: IHashProvider,
     ) {}
 
     public async execute({ name, email, password }: IRequest): Promise<IUsers> {
@@ -27,7 +29,7 @@ export default class CreateUserService {
 
         const users = await this.userRepository.create({ name, email, password })
 
-        const hashedPassword = await hash(password, 8)
+        const hashedPassword = await this.bcryptHashProvider.generateHash(password);
 
         users.password = hashedPassword
 
