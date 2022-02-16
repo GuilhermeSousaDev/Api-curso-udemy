@@ -18,7 +18,7 @@ describe('CreateCustomer', () => {
             email: 'gui@gmail.com',
         });
 
-        expect(customer).toBe('id');
+        expect(customer).toHaveProperty('id');
     });
 
     it('should not be able to create two customers with the same email', async () => {
